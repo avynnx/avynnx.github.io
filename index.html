@@ -46,6 +46,20 @@
       max-width: 520px;
       min-width: 0;
     }
+    .avatar {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      z-index: 1;
+      line-height: 0;
+    }
+    .avatar img {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 2px solid #ff8fb8;
+    }
+    .avatar:hover img { border-color: #ffd6e6; }
     h1 {
       margin: 0;
       font: italic 500 clamp(56px, 9vw, 88px)/1 Fraunces, Georgia, serif;
@@ -121,6 +135,8 @@
     }
     @media (max-width: 640px) {
       body::after { background: rgba(20, 10, 16, 0.62); }
+      .avatar { top: 16px; left: 16px; }
+      .avatar img { width: 44px; height: 44px; }
     }
     @media (prefers-reduced-motion: reduce) {
       .petal { animation: none; top: var(--y); transform: rotate(var(--r)); }
@@ -128,6 +144,7 @@
   </style>
 </head>
 <body>
+  <a class="avatar" href="https://github.com/avynnx" aria-label="avynnx on GitHub"><img src="https://github.com/avynnx.png?size=120" alt="" width="56" height="56"></a>
 
   <main>
     <h1>avynnx</h1>
