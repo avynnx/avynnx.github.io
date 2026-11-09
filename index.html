@@ -4,83 +4,173 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>avynnx</title>
-  <meta name="description" content="C++ · Rust · network programming · NixOS">
+  <meta name="description" content="C++, Rust, network programming, NixOS">
+  <meta name="theme-color" content="#1a1016">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,500&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #0d1117;
-      --fg: #e6edf3;
-      --dim: #8b949e;
-      --accent: #7ebae4;
-      --card: #161b22;
-      --border: #30363d;
-    }
-    * { box-sizing: border-box; }
     body {
       margin: 0;
       min-height: 100vh;
       display: grid;
       place-items: center;
-      background: var(--bg);
-      color: var(--fg);
-      font: 16px/1.6 ui-monospace, "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace;
-      padding: 32px 16px;
+      padding: 64px 24px;
+      box-sizing: border-box;
+      background: #1a1016;
+      color: #e9d6df;
+      font: 16px/1.7 system-ui, -apple-system, "Segoe UI", sans-serif;
+      overflow-x: hidden;
     }
-    main { width: 100%; max-width: 640px; }
-    h1 { font-size: 2.2rem; margin: 0; }
-    .tagline { color: var(--dim); margin: 4px 0 32px; }
-    h2 { font-size: 1rem; color: var(--dim); font-weight: normal; margin: 32px 0 12px; }
-    ul { list-style: none; padding: 0; margin: 0; }
-    li { margin: 6px 0; }
-    li::before { content: "› "; color: var(--accent); }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .card {
-      display: block;
-      background: var(--card);
-      border: 1px solid var(--border);
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -24px;
+      z-index: -1;
+      background: url("images/blossoms.jpg") center / cover;
+      filter: blur(3px) brightness(0.45) saturate(1.1);
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(ellipse 60% 70% at center, rgba(20, 10, 16, 0.75), rgba(20, 10, 16, 0.15));
+    }
+    main {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 520px;
+      min-width: 0;
+    }
+    h1 {
+      margin: 0;
+      font: italic 500 clamp(56px, 9vw, 88px)/1 Fraunces, Georgia, serif;
+      color: #ff8fb8;
+      letter-spacing: -0.02em;
+    }
+    .tagline {
+      margin: 10px 0 40px;
+      color: #d2b3c3;
+    }
+    p { margin: 0 0 16px; }
+    h2 {
+      margin: 36px 0 8px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #f2a2c3;
+    }
+    a {
+      color: #ff8fb8;
+      text-decoration-color: #b05a80;
+      text-underline-offset: 3px;
+    }
+    a:hover { text-decoration-color: currentColor; }
+    .cmd {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+      padding: 6px 6px 6px 14px;
+      background: #24161e;
+      border: 1px solid #3d2532;
       border-radius: 8px;
-      padding: 16px;
-      color: var(--fg);
     }
-    .card:hover { border-color: var(--accent); text-decoration: none; }
-    .card b { color: var(--accent); }
-    .card p { margin: 4px 0 12px; color: var(--dim); }
     code {
-      display: block;
+      flex: 1;
+      min-width: 0;
+      font: 13px ui-monospace, Consolas, monospace;
+      color: #f4c6d8;
       overflow-x: auto;
       white-space: nowrap;
-      background: var(--bg);
-      border: 1px solid var(--border);
+    }
+    .cmd button {
+      flex: none;
+      padding: 4px 10px;
+      font: 12px system-ui, sans-serif;
+      color: #f2a2c3;
+      background: #2f1d27;
+      border: 1px solid #4a2d3c;
       border-radius: 6px;
-      padding: 8px 12px;
-      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .cmd button:hover { color: #ffd6e6; border-color: #b05a80; }
+    .petal {
+      position: fixed;
+      top: -30px;
+      width: calc(15px * var(--s, 1));
+      height: calc(18px * var(--s, 1));
+      background: url("images/petal.svg") center / contain no-repeat;
+      opacity: 0.85;
+      pointer-events: none;
+      z-index: 0;
+      animation: fall var(--duration) linear var(--delay) infinite, sway var(--sway) ease-in-out var(--delay) infinite alternate;
+    }
+    @keyframes fall {
+      from { transform: translateY(0) rotate(var(--r)); }
+      to { transform: translateY(106vh) rotate(var(--r)); }
+    }
+    @keyframes sway {
+      from { translate: -18px 0; }
+      to { translate: 18px 0; }
+    }
+    @media (max-width: 640px) {
+      body::after { background: rgba(20, 10, 16, 0.62); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .petal { animation: none; top: var(--y); transform: rotate(var(--r)); }
     }
   </style>
 </head>
 <body>
+
   <main>
     <h1>avynnx</h1>
-    <p class="tagline">C++ · Rust · network programming · NixOS</p>
+    <p class="tagline">c++, rust, networking, nixos</p>
 
-    <h2>about</h2>
-    <ul>
-      <li>writing Rust and C++, mostly systems and performance stuff</li>
-      <li>doing network programming, mostly sockets, protocols and low-level tooling</li>
-      <li>using NixOS, mostly flakes and reproducible setups</li>
-    </ul>
+    <p>I write Rust and C++, mostly systems and performance stuff. I like network programming: sockets, protocols, low-level tools. I daily-drive NixOS.</p>
 
     <h2>projects</h2>
-    <a class="card" href="https://github.com/avynnx/mcping">
-      <b>mcping</b>
-      <p>Ping Minecraft Java servers from your terminal, with colored MOTDs and server icons.</p>
-      <code>curl -fsSL avynnx.dev/mcping/install.sh | sh</code>
-    </a>
+    <p><a href="https://github.com/avynnx/mcping">mcping</a> - ping Minecraft servers from the terminal, with colored MOTDs and server icons.</p>
+    <div class="cmd"><code>curl -fsSL avynnx.dev/mcping/install.sh | sh</code><button type="button" id="copy">copy</button></div>
 
-    <h2>find me</h2>
-    <ul>
-      <li><a href="https://github.com/avynnx">github</a></li>
-      <li><a href="https://discord.com/users/845342161515970563">discord</a></li>
-    </ul>
+    <h2>contact</h2>
+    <p><a href="https://github.com/avynnx">github</a> · <a href="https://discord.com/users/845342161515970563">discord</a></p>
   </main>
+
+  <script>
+    const copy = document.getElementById("copy");
+    copy.addEventListener("click", async () => {
+      const text = copy.previousElementSibling.textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        const range = document.createRange();
+        range.selectNodeContents(copy.previousElementSibling);
+        getSelection().removeAllRanges();
+        getSelection().addRange(range);
+        document.execCommand("copy");
+        getSelection().removeAllRanges();
+      }
+      copy.textContent = "copied";
+      setTimeout(() => (copy.textContent = "copy"), 1500);
+    });
+
+    for (let i = 0; i < 20; i++) {
+      const petal = document.createElement("div");
+      petal.className = "petal";
+      petal.style.left = Math.random() * 100 + "vw";
+      petal.style.setProperty("--duration", 10 + Math.random() * 10 + "s");
+      petal.style.setProperty("--delay", -Math.random() * 20 + "s");
+      petal.style.setProperty("--sway", 2.5 + Math.random() * 2.5 + "s");
+      petal.style.setProperty("--y", Math.random() * 95 + "vh");
+      petal.style.setProperty("--r", Math.random() * 60 - 30 + "deg");
+      petal.style.setProperty("--s", 0.6 + Math.random() * 0.8);
+      document.body.append(petal);
+    }
+  </script>
 </body>
 </html>
